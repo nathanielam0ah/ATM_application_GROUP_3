@@ -3,6 +3,8 @@
 #uml classes
 #parent classes
 class Bank:
+    firstName = "group"
+    lastName = "02"
     code = "PSW2019GRP02"
     address = "AITILAB03"
     accountNo = "GRP0002"
@@ -29,7 +31,7 @@ class ATM:
             self.accountPin = int(input("PIN: "))
 
             if (self.accountNo == Bank.accountNo) and (self.accountPin == Bank.accountPin):
-                print("SUCCESS")
+                print("LOGIN SUCCESS")
                 return True
             else:
                 print("INCORRECT LOGIN INFO, TRY AGAIN")
@@ -97,8 +99,8 @@ class Account:
 
 
 #in direct association debit card class and customer class and the ATM transaction class.
-class savingAccounts:
-    accountNo = None
+class savingAccounts(Account):
+    accountNo = Bank.accountNo
 
     def debit(self):
         print("print this is the savings account class")
@@ -106,8 +108,8 @@ class savingAccounts:
     def credit(self):
         print("this is the checkingAccount class")
 
-class checkingAccount:
-    accountNo = None
+class checkingAccount(Account):
+    accountNo = Bank.accountNo
 
     def debit(self):
         print("this is the checkingAccount class")
