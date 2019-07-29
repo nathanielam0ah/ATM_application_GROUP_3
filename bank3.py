@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-#uml classes
 #assuming bank as database
 class Bank:
     firstName = "group"
@@ -58,21 +57,18 @@ class ATM:
             while 1:
                 print("WELCOME TO PSW2019 GROUP02 BANK ATM.")
                 print("ENTER 1 TO CHECK ACCOUNT BALANCE, 2 TO DEPOSIT AND 3 TO WITHDRAW, 4 TO LOG OUT")
-                menuChoice = input()
-
+                menuChoice = int(input("enter your option: " ))
+            
                 if (menuChoice == 1):
                     testAccount = Account("savings", "group02")
                     testAccount.checkBalance()
-                    break
+                    
+                    
                 elif (menuChoice == 2):
-                    testAccount = transfer_Transaction()
-                    testAccount.deposit()
-                    break
-                elif (menuChoice == 3):
                     testAccount = withdrawal_transaction()
                     testAccount.withdrawal()
-                    break
-                elif (menuChoice == 4):
+                    
+                elif (menuChoice == 3):
                     ATM.logIn()
         if ATM.logIn_confirmation == False:
             exit()
@@ -87,12 +83,14 @@ class atmTransaction:
 
 class withdrawal_transaction(atmTransaction):
     # pin = 1234
-    def __init__(self, amount):
-        self.amount = amount
 
-    def withdrawal(self, amount):
-        self.amount = input("AMOUNT: ")
-        if self.amount <= Account.balance:
+    amount = None
+    # def __init__(self, amount):
+    #     self.amount = amount
+
+    def withdrawal(self):
+        amount = int(input("AMOUNT: "))
+        if  amount <= Account.balance:
             new_balance = Account.balance - amount
             print(new_balance)
         else:
@@ -126,7 +124,7 @@ class Customer:
         print("this is the customer class")
 
 class Account:
-    balance  = 00.0
+    balance  = 3000
 
     def __init__(self, types,owner):
         self.types = "savings"
