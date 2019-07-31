@@ -27,8 +27,11 @@ class ATM:
     def logIn(self):
         logIn_tries = 0
         while logIn_tries != 4:
-            self.accountNo = str(input("ACCOUNT ID: "))
-            self.accountPin = int(input("PIN: "))
+            try:
+                self.accountNo = str(input("ACCOUNT ID: "))
+                self.accountPin = int(input("PIN: "))
+            except ValueError:
+                print("INVALID INPUT")
 
             if (self.accountNo == Bank.accountNo) and (self.accountPin == Bank.accountPin):
                 print("LOGIN SUCCESS")
@@ -59,24 +62,29 @@ class ATM:
         if ATM.logIn_confirmation == True:
             while 1:
                 print("WELCOME TO PSW2019 GROUP02 BANK ATM.")
-                print("ENTER 1 TO CHECK ACCOUNT BALANCE, 2 FOR TRANSACTIONS AND  3 TO LOG OUT")
-                menuChoice = int(input(": " ))
-            
+                print("ENTER 1 TO CHECK ACCOUNT BALANCE, 2 FOR TRANSACTIONS AND 3 TO LOG OUT")
+                try:
+                    menuChoice = int(input(": " ))
+                except ValueError:
+                    print("INVALID INPUT")
+
                 if (menuChoice == 1):
                     testAccount = Account("savings", "group02")
                     testAccount.checkBalance()
-                    
-                    
+
                 elif (menuChoice == 2):
                     print("ENTER 1 FOR WITHDRAWAL AND 2 FOR TRANSFER.")
-                    confirm_transaction = int(input(": "))
+                    try:
+                        confirm_transaction = int(input(": "))
+                    except ValueError:
+                        print("INVALID INPUT")
                     if (confirm_transaction == 1):
                         testAccount = Withdrawal_transaction()
                         testAccount.withdrawal()
                     elif (confirm_transaction == 2):
                         testAccount = Transfer_Transaction()
                         testAccount.deposit()
-                    
+
                 elif (menuChoice == 3):
                     break
         if ATM.logIn_confirmation == False:
@@ -91,25 +99,48 @@ class AtmTransaction:
 
 class Withdrawal_transaction(AtmTransaction):
     amount = None
-
+    accountPin = None
     def withdrawal(self):
-        amount = int(input("AMOUNT: "))
+        try:
+            amount = float(input("AMOUNT: "))
+        except ValueError:
+            print("INVALID INPUT")
         if  amount <= Account.balance:
-            Account.balance = Account.balance - amount
-            print("CURRENT BALANCE: ",Account.balance)
+            print("CONFIRM WITHDRAWAL")
+            try:
+                accountPin = int(input(": "))
+            except ValueError:
+                print("INVALID INPUT")
+            if (accountPin == Bank.accountPin):
+                Account.balance = Account.balance - amount
+                print("WITHDRAWAL SUCCESSFUL\nCURRENT BALANCE: ",Account.balance)
+            else:
+                print("WITHDRAWAL FAILED, INCORRECT PIN")
         else:
             print("INSUFFICIENT BALANCE")
 
 class Transfer_Transaction(AtmTransaction):
     accountNo = None
     amount = None
+    accountPin = None
     def transferToOther(self):
         print()
 
     def deposit(self):
-        amount = float(input("AMOUNT: "))
-        Account.balance = Account.balance + amount
-        print("BALANCE: ", Account.balance)
+        try:
+            amount = float(input("AMOUNT: "))
+        except ValueError:
+            print("INVALID INPUT")
+        print("CONFIRM DEPOSIT")
+        try:
+            accountPin = int(input(": "))
+        except ValueError:
+            print("INVALID INPUT")
+        if (accountPin == Bank.accountPin):
+            Account.balance = Account.balance + amount
+            print(amount," DEPOSITED\nCURRENT BALANCE: ", Account.balance)
+        else:
+            print("DEPOSIT FAILED, INCORRECT PIN")
 
 
 class DebitCard:
