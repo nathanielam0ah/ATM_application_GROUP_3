@@ -61,7 +61,7 @@ class ATM:
 
         if ATM.logIn_confirmation == True:
             while 1:
-                print("WELCOME TO PSW2019 GROUP02 BANK ATM.")
+                print("PSW2019 GROUP02 BANK ATM.")
                 print("ENTER 1 TO CHECK ACCOUNT BALANCE, 2 FOR TRANSACTIONS AND 3 TO LOG OUT")
                 try:
                     menuChoice = int(input(": " ))
